@@ -23,7 +23,7 @@ sudo gedit /etc/systemd/system/battery-charge-threshold.service
 
 
 - Get BATTERY_NAME from `ls /sys/class/power_supply`
-- Set CHARGE_STOP_THRESHOLD as the battery percentage where you want charging to stop, eg for 80, give 81 (but for 100, its 100, not 101... then the paradox 99 comes but I've no answers to that)
+- Set CHARGE_STOP_THRESHOLD as the battery percentage where you want charging to stop, eg for 80, give 81
 
 ```
 [Unit]

@@ -18,7 +18,7 @@ Credit: https://www.linuxuprising.com/2021/02/how-to-limit-battery-charging-set.
 
 - Get `BATTERY` from `ls /sys/class/power_supply`
 - Set `CHARGE_END_THRESHOLD` as the battery percentage where you want charging to stop (eg. for 80, give 81)
-- Create file `/etc/systemd/system/battery-charge-threshold.service`
+- Create service `/etc/systemd/system/battery-charge-threshold.service`
 
 ```
 [Unit]
@@ -43,7 +43,7 @@ WantedBy=multi-user.target
 sudo systemctl enable --now battery-charge-threshold.service
 ```
 
-- Edit `/etc/systemd/system/battery-charge-threshold.service` to change threshold whenever needed 
+- Edit `/etc/systemd/system/battery-charge-threshold.service` to change threshold whenever needed, for applying immediately and not after restart reload service files and restart service
 
 ```
 sudo systemctl daemon-reload

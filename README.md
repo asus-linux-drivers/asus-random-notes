@@ -40,13 +40,14 @@ WantedBy=multi-user.target
 - Then enable and start service
 
 ```
-sudo systemctl enable --now battery-charge-threshold.service
+# --now is equivalent for sudo systemctl start
+$ sudo systemctl enable --now battery-charge-threshold.service
 ```
 
 - Edit `/etc/systemd/system/battery-charge-threshold.service` to change threshold whenever needed, for applying immediately and not after restart reload service files and restart service
 
 ```
-sudo systemctl daemon-reload
-sudo systemctl restart battery-charge-threshold.service
+$ sudo systemctl daemon-reload
+$ sudo systemctl restart battery-charge-threshold.service
 ```
 

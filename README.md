@@ -12,13 +12,33 @@ UP5401EA.300
 - Restart laptop and hold BIOS entry key F2
 - Advanced mode -> Advanced -> Asus EZ Flash 3 Utility -> select USB Flash disk (orientate via capacity) -> Enter
 
-# Set Battery charging threshold 
+# Set Battery charging thresholds
 
-Credit: https://www.linuxuprising.com/2021/02/how-to-limit-battery-charging-set.html
+> The purpose of battery care on laptops is to reduce the loss of capacity due to wear from ongoing battery operation i.e. to prolongate the battery lifespan. This can be achieved by:
+>
+> - Limiting the maximum charge level to below 100%: stop charge threshold
+>
+> - After a short discharge, prevent the charging process from continuing as soon as the charger is connected: start charge threshold
+>
+> - Recalibration: helps keeping charge level (SOC) readings and battery runtime estimates accurate by setting new “full charge” and “full discharge” anchors in the battery controller
+
+*(https://linrunner.de/tlp/settings/battery.html#battery-care)*
+
+## Using TLP (how to customize Start & End charge threshold)
+
+- Get battery number from `ls /sys/class/power_supply`
+- Find and set `START_CHARGE_THRESH_BAT0|1`, `STOP_CHARGE_THRESH_BAT0|1` in config `sudo gedit /etc/tlp.conf`
+- Apply newly set limits
+
+```
+sudo tlp start
+```
+
+## Systemd service (how to customize End charge threshold)
 
 - Get `BATTERY` from `ls /sys/class/power_supply`
 - Set `CHARGE_END_THRESHOLD` as the battery percentage where you want charging to stop (eg. for 80, give 81)
-- Create service `/etc/systemd/system/battery-charge-threshold.service`
+- Create service `sudo gedit /etc/systemd/system/battery-charge-threshold.service`
 
 ```
 [Unit]

@@ -24,9 +24,11 @@ UP5401EA.300
 
 *(https://linrunner.de/tlp/settings/battery.html#battery-care)*
 
-## Using TLP (how to customize Start & End charge threshold)
+## Using TLP (how to customize End & Start charge threshold when supported)
 
 - Get battery number from `ls /sys/class/power_supply`
+- Check whether your hardware supports changing both values via existing files `cat /sys/class/power_supply/BAT0|1/charge_control_end_threshold|charge_control_start_threshold`
+- If your hardware supports only a stop threshold, set in next step the start value to 0
 - Find and set `START_CHARGE_THRESH_BAT0|1`, `STOP_CHARGE_THRESH_BAT0|1` in config `sudo gedit /etc/tlp.conf`
 - Apply newly set limits
 
@@ -37,6 +39,7 @@ sudo tlp start
 ## Systemd service (how to customize End charge threshold)
 
 - Get `BATTERY` from `ls /sys/class/power_supply`
+- Check whether your hardware supports changing end charge threshold via existing file `cat /sys/class/power_supply/BAT0|1/charge_control_end_threshold`
 - Set `CHARGE_END_THRESHOLD` as the battery percentage where you want charging to stop (eg. for 80, give 81)
 - Create service `sudo gedit /etc/systemd/system/battery-charge-threshold.service`
 

@@ -38,10 +38,10 @@ sudo tlp start
 
 ## Systemd service (how to customize End charge threshold)
 
-- Get `BATTERY` from `ls /sys/class/power_supply`
-- Check whether your hardware supports changing end charge threshold via existing file `cat /sys/class/power_supply/BAT0|1/charge_control_end_threshold`
+- Get `BATTERY` from `$ ls /sys/class/power_supply`
+- Check whether your hardware supports changing end charge threshold via existing file `$ cat /sys/class/power_supply/BAT0|1/charge_control_end_threshold`
 - Set `CHARGE_END_THRESHOLD` as the battery percentage where you want charging to stop (eg. for 80, give 81)
-- Create service `sudo gedit /etc/systemd/system/battery-charge-threshold.service`
+- Create service `$ sudo gedit /etc/systemd/system/battery-charge-threshold.service`
 
 ```
 [Unit]
@@ -86,12 +86,12 @@ $ sudo systemctl restart battery-charge-threshold.service
 
 - Connect device and get ID **2717:ff40**
 ```
-lsusb
+$ lsusb
 ```
-- Add obtained ID in line `USB_DENYLIST="2717:ff40"` to config `sudo gedit /etc/tlp.conf`
+- Add obtained ID in line `USB_DENYLIST="2717:ff40"` to config `$ sudo gedit /etc/tlp.conf`
 - Apply changes
 
 ```
 # do a config reload and restart
-sudo tlp start
+$ sudo tlp start
 ```

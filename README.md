@@ -33,7 +33,8 @@ UP5401EA.300
 - Apply newly set limits
 
 ```
-sudo tlp start
+# do a config reload and restart
+$ sudo tlp start
 ```
 
 ## Systemd service (how to customize End charge threshold)

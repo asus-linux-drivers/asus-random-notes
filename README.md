@@ -74,3 +74,24 @@ $ sudo systemctl daemon-reload
 $ sudo systemctl restart battery-charge-threshold.service
 ```
 
+# Allow charging phone via USB
+
+## When is TLP running
+
+> Symptom: some USB devices do not work reliable when TLP activates USB autosuspend mode.
+>
+> All input devices (driver usbhid), libsane-supported scanners and (as of version 1.4) audio devices get excluded by default. It’s therefore unnecessary to put them on the USB_DENYLIST. To circumvent the default for certain devices enter the IDs into USB_ALLOWLIST.
+
+*(https://linrunner.de/tlp/faq/usb.html#usb-devices)*
+
+- Connect device and get ID **2717:ff40**
+```
+lsusb
+```
+- Add obtained ID in line `USB_DENYLIST="2717:ff40"` to config `sudo gedit /etc/tlp.conf`
+- Apply changes
+
+```
+# do a config reload and restart
+sudo tlp start
+```

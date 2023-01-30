@@ -1,3 +1,12 @@
+# Wifi does not work
+
+- Connect laptop via ethernet or created phone hotspot to internet (Android: Settings -> Wireless connection and networks -> Tethering and portable hotspot -> enable checkbox Tethering via USB)
+- Install wifi driver
+```
+$ sudo apt install rtl8821ce-dkms
+```
+- Reboot
+
 # BIOS upgrade (with EZ Flash)
 
 ```

@@ -7,6 +7,19 @@ $ sudo apt install rtl8821ce-dkms
 ```
 - Reboot
 
+# Disable bluetooth on startup
+
+## Using TLP (does by default)
+
+## Script
+
+```
+#!/bin/sh
+
+sudo systemctl stop bluetooth.service
+bluetooth off
+```
+
 # BIOS upgrade (with EZ Flash)
 
 ```

@@ -56,6 +56,7 @@ UP5401EA.300
 
 ## Using TLP (how to customize End & Start charge threshold when supported)
 
+- Check TLP version, for Asus you need TLP 1.4 or newer [TLP changelog](https://github.com/linrunner/TLP/blob/main/changelog#L70)
 - Get battery number from `ls /sys/class/power_supply`
 - Check whether your hardware supports changing both values via existing files `cat /sys/class/power_supply/BAT0|1/charge_control_end_threshold|charge_control_start_threshold`
 - If your hardware supports only a stop threshold, set in next step the start value to 0

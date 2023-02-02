@@ -9,7 +9,15 @@ $ sudo apt install rtl8821ce-dkms
 
 # Disable bluetooth on startup
 
-## Using TLP (does by default)
+## Using TLP
+
+- Find and set `DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"` in config `sudo gedit /etc/tlp.conf`
+- Apply
+
+```
+# do a config reload and restart
+$ sudo tlp start
+```
 
 ## Script
 

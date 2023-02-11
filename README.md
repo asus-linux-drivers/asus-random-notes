@@ -9,13 +9,13 @@
 ```
 $ sudo apt install fprintd libpam-fprintd
 ```
-- Enroll 5 times your fingerprint
+- Enroll 5 times your fingerprint (`right-index-finger` is default)
 ```
-$ sudo fprintd-enroll
+$ sudo fprintd-enroll -f [finger_name]
 ```
-- Verify scanned fingerprint will works
+- Verify scanned fingerprint will works (`right-index-finger` is default)
 ```
-$ sudo fprintd-verify
+$ sudo fprintd-verify -f [finger_name]
 ```
 - Enable fingerprint authentication
 ```

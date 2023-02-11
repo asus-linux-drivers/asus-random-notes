@@ -1,5 +1,9 @@
 # Fingerprint
 
+> You will be able to use your fingerprint scanner to authenticate to elevated privileges, ie. sudo. It will also allow you to login and unlock your system using the fingerprint reader.
+
+*(https://askubuntu.com/a/1243194)*
+
 - Check whether is a fingerprint reader available `$ lsusb`
 - Install fingerprint driver
 ```

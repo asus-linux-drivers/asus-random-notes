@@ -11,7 +11,11 @@ $ sudo apt install fprintd libpam-fprintd
 ```
 - Enroll 5 times your fingerprint
 ```
-$ fprintd-enroll
+$ sudo fprintd-enroll
+```
+- Verify scanned fingerprint will works
+```
+$ sudo fprintd-verify
 ```
 - Enable fingerprint authentication
 ```

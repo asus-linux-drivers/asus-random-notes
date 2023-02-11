@@ -13,9 +13,9 @@ $ sudo apt install fprintd libpam-fprintd
 ```
 $ fprintd-enroll
 ```
-- Enable fingerprint authentication (using key `Space`)
+- Enable fingerprint authentication
 ```
-$ sudo pam-auth-update
+$ sudo pam-auth-update --enable fprintd
 ```
 
 # Wifi does not work

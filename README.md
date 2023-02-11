@@ -1,3 +1,19 @@
+# Fingerprint
+
+- Check whether is a fingerprint reader available `$ lsusb`
+- Install fingerprint driver
+```
+$ sudo apt install fprintd libpam-fprintd
+```
+- Enroll 5 times your fingerprint
+```
+$ fprintd-enroll
+```
+- Enable fingerprint authentication (using key `Space`)
+```
+$ sudo pam-auth-update
+```
+
 # Wifi does not work
 
 - Connect laptop via ethernet or created phone hotspot tethered via USB to internet (Android: Settings -> Wireless connection and networks -> Tethering and portable hotspot -> enable checkbox Tethering via USB)

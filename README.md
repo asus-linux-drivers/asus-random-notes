@@ -24,16 +24,6 @@ $ reboot
 $ sudo hp-setup
 ```
 
-## Troubleshoting
-
-```
-# configure: error: cannot find libusb support
-sudo apt-get install -y libusb-dev
-
-# configure: error: cannot find python-devel support
-sudo apt-get install -y python3.9-dev
-```
-
 # Stuck on login screen
 
 - Display terminal `CTRL + ALT + F3`

@@ -1,3 +1,8 @@
+# Stuck on login screen
+
+- Display terminal `CTRL + ALT + F3`
+- Back to login screen `CTRL + ALT + F7`
+
 # Fingerprint
 
 > You will be able to use your fingerprint scanner to authenticate to elevated privileges, ie. sudo. It will also allow you to login and unlock your system using the fingerprint reader.

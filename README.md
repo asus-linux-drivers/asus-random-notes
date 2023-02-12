@@ -13,7 +13,7 @@ $ sudo apt install fprintd libpam-fprintd
 ```
 $ sudo fprintd-enroll -f [finger_name]
 ```
-- Verify scanned fingerprint will works (`right-index-finger` is default)
+- Verify scanned fingerprint (`right-index-finger` is default)
 ```
 $ sudo fprintd-verify -f [finger_name]
 ```

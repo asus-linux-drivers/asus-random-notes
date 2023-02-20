@@ -1,3 +1,10 @@
+# Usage of Intel graphics
+
+```
+sudo apt-get install -y intel-gpu-tools
+sudo intel_gpu_top
+```
+
 # 32 or 64-bit OS
 ```
 $ getconf LONG_BIT

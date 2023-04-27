@@ -16,18 +16,12 @@ $ getconf LONG_BIT
 
 - Download and install latest `*.run` file from [developers.hp.com](https://developers.hp.com/hp-linux-imaging-and-printing/gethplip)
 ```
-$ chmod x+u *.run
+$ chmod +x *.run
 $ sudo ./*.run
-# configure: error: cannot find libusb support
-$ sudo apt-get install -y libusb-dev
-# configure: error: cannot find python-devel support
-$ sudo apt-get install -y python3.9-dev
-
-$ reboot
+# reboot, install script will ask at the end
 ```
-- Create hotspot on mobile
-- Connect printer to hotspot
-- Connect laptop to hotspot
+
+- Create hotspot on mobile (connect printer to hotspot, connect laptop to hotspot)
 - Setup printer
 ```
 $ sudo hp-setup

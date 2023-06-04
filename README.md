@@ -27,6 +27,8 @@ $ sudo ./*.run
 $ sudo hp-setup
 ```
 
+*Using phone app HP Smart (with plug-in module for HP Printer) has to be started data connection at first but for printing disabled, for scanning has not to be disconnected connection to internet*
+
 # Stuck on login screen
 
 - Display terminal `CTRL + ALT + F3`

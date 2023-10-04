@@ -1,5 +1,31 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fasus-linux-drivers%2Fasus-random-notes&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
+# BIOS upgrade (with EZ Flash)
+
+```
+# current version
+$ sudo dmidecode -s bios-version
+UP5401EA.300
+```
+
+- Download the latest BIOS (303) from laptop specific [Asus website](https://www.asus.com/laptops/for-home/zenbook/zenbook-14-flip-oled-up5401-11th-gen-intel/helpdesk_bios/?model2Name=Zenbook-14-Flip-OLED-UP5401-11th-Gen-Intel)
+- Extract
+- Format USB flash disk to FAT32
+- Copy file `UP5401EAAS.303` from extracted folder to root of USB flash disk (does not have to be empty)
+- Restart laptop and hold BIOS entry key F2
+- Advanced mode -> Advanced -> Asus EZ Flash 3 Utility -> select USB Flash disk (orientate via capacity) -> Enter
+
+# Firmware update (with fwupd ([github.com/fwupd/fwupd](https://github.com/fwupd/fwupd)))
+
+```
+$ sudo apt-get install -y fwupd
+$
+$ fwupdmgr update # download/install latest available updates
+$
+$ fwupdmgr get-devices # list devices with currently installed Firmware
+$ fwupdmgr --help
+```
+
 # Usage of Intel graphics
 
 ```
@@ -87,21 +113,6 @@ $ sudo tlp start
 sudo systemctl stop bluetooth.service
 bluetooth off
 ```
-
-# BIOS upgrade (with EZ Flash)
-
-```
-# current version
-$ sudo dmidecode -s bios-version
-UP5401EA.300
-```
-
-- Download the latest BIOS (303) from laptop specific [Asus website](https://www.asus.com/laptops/for-home/zenbook/zenbook-14-flip-oled-up5401-11th-gen-intel/helpdesk_bios/?model2Name=Zenbook-14-Flip-OLED-UP5401-11th-Gen-Intel)
-- Extract
-- Format USB flash disk to FAT32
-- Copy file `UP5401EAAS.303` from extracted folder to root of USB flash disk (does not have to be empty)
-- Restart laptop and hold BIOS entry key F2
-- Advanced mode -> Advanced -> Asus EZ Flash 3 Utility -> select USB Flash disk (orientate via capacity) -> Enter
 
 # Set Battery charging thresholds
 

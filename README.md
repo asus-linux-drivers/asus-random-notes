@@ -15,7 +15,11 @@ UP5401EA.300
 - Restart laptop and hold BIOS entry key F2
 - Advanced mode -> Advanced -> Asus EZ Flash 3 Utility -> select USB Flash disk (orientate via capacity) -> Enter
 
-# Firmware update (with fwupd ([github.com/fwupd/fwupd](https://github.com/fwupd/fwupd)))
+# Firmware update (with fwupd)
+
+> This project aims to make updating firmware on Linux automatic, safe, and reliable.
+
+*(https://github.com/fwupd/fwupd)*
 
 ```
 $ sudo apt-get install -y fwupd

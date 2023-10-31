@@ -24,9 +24,15 @@ UP5401EA.300
 ```
 $ sudo apt-get install -y fwupd
 $
-$ fwupdmgr update # download/install latest available updates
+$ fwupdmgr refresh
+Firmware metadata last refresh: 1 minute ago. Use --force to refresh again.
+$ fwupdmgr refresh --force
+Updating lvfs
+Downloading…             [***************************************]
+Successfully downloaded new metadata: 0 local devices supported
+$ fwupdmgr update
 $
-$ fwupdmgr get-devices # list devices with currently installed Firmware
+$ fwupdmgr get-devices # list devices with currently installed firmware
 $ fwupdmgr --help
 ```
 

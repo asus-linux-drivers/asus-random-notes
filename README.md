@@ -166,7 +166,7 @@ StartLimitBurst=0
 [Service]
 Type=oneshot
 Restart=on-failure
-ExecStart=/bin/bash -c 'echo $CHARGE_END_THRESHOLD > /sys/class/power_supply/$BATTERY/charge_control_end_threshold'
+ExecStart=/usr/bin/env bash -c 'echo $CHARGE_END_THRESHOLD > /sys/class/power_supply/$BATTERY/charge_control_end_threshold'
 Environment="BATTERY=BAT0"
 Environment="CHARGE_END_THRESHOLD=90"
 

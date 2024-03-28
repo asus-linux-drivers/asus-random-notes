@@ -36,6 +36,15 @@ $ fwupdmgr get-devices # list devices with currently installed firmware
 $ fwupdmgr --help
 ```
 
+# Export of DSDT table as *.dsl
+
+```
+$ sudo apt-get install iasl
+$ sudo cp /sys/firmware/acpi/tables/DSDT DSDT
+$ sudo iasl -d DSDT
+$ cat DSDT.dsl
+```
+
 # Usage of Intel graphics
 
 ```

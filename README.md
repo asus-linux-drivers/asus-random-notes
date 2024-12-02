@@ -10,7 +10,7 @@ UP5401EA.300
 
 - Download the latest BIOS (303) from laptop specific [Asus website](https://www.asus.com/laptops/for-home/zenbook/zenbook-14-flip-oled-up5401-11th-gen-intel/helpdesk_bios/?model2Name=Zenbook-14-Flip-OLED-UP5401-11th-Gen-Intel)
 - Extract
-- Format USB flash disk to FAT32 (`sudo apt-get install gnome-disk-utility`)
+- Format USB flash disk to FAT32 (`$ sudo apt-get install gparted` or `$ sudo apt-get install gnome-disk-utility`)
 - Copy file `UP5401EAAS.303` from extracted folder to root of USB flash disk (does not have to be empty)
 - Restart laptop and hold BIOS entry key F2
 - Advanced mode -> Advanced -> Asus EZ Flash 3 Utility -> select USB Flash disk (orientate via capacity) -> Enter

@@ -45,6 +45,21 @@ $ sudo iasl -d DSDT
 $ cat DSDT.dsl
 ```
 
+# Locked Fn key whenever laptop starts
+
+- Add these two lines to the file `sudo gedit /etc/modprobe.d/alsa-base.conf`
+
+```
+# Toggle fnlock_default at boot (Y/N)
+options asus_wmi fnlock_default=N
+```
+
+- Reload & reboot
+
+```
+$ sudo update-initramfs -u -k all; reboot
+```
+
 # Usage of Intel graphics
 
 ```

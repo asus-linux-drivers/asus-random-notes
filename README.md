@@ -232,10 +232,43 @@ $ tlp-stat -u # or with this
 - Add obtained ID in line `USB_ALLOWLIST="2717:ff40"` to config `$ sudo gedit /etc/tlp.conf`
  
 *(This parameter was renamed with version 1.4. Until 1.3 it was called USB_WHITELIST. 1.4 and newer also recognize the old name.)*
- 
+
 - Apply changes
  
 ```
 # do a config reload and restart
 $ sudo tlp start
+```
+
+# Inactivating broken touchscreen on startup
+
+## X11
+
+- Add file `$ sudo gedit /etc/X11/xorg.conf.d/99-disable-touchscreen.conf`
+
+```
+Section "InputClass"
+    Identifier "libinput touchscreen catchall"
+    MatchIsTouchscreen "on"
+    Driver "libinput"
+    Option "Ignore" "on"
+EndSection
+
+Section "InputClass"
+    Identifier "libinput stylus catchall"
+    MatchIsTablet "on"
+    Driver "libinput"
+    Option "Ignore" "on"
+EndSection
+```
+
+- Reboot
+
+- Check using `$ cat /var/log/Xorg.0.log | grep -i "libinput"` and `$ xinput list`
+
+```
+...
+[     9.100] (**) ELAN9009:00 04F3:2E36 Stylus: Ignoring device from InputClass "libinput stylus catchall"
+[     9.102] (**) ELAN9009:00 04F3:2E36: Ignoring device from InputClass "libinput touchscreen catchall"
+...
 ```

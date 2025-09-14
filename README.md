@@ -272,3 +272,72 @@ EndSection
 [     9.102] (**) ELAN9009:00 04F3:2E36: Ignoring device from InputClass "libinput touchscreen catchall"
 ...
 ```
+
+# Set laptop speakers to 0% and unmute on login using pactl
+
+- To verify it will work, test this first in the terminal: `$ systemd-run --user --wait --collect -p Environment="XDG_RUNTIME_DIR=/run/user/1000" /usr/bin/pactl list sinks` and check it actually lists sinks using `$ journalctl --user`
+
+- Then test the whole script in the terminal:
+```
+  $ systemd-run --user --wait --collect -p Environment="XDG_RUNTIME_DIR=/run/user/1000" /usr/bin/env bash -c '
+  echo "DEBUG: service started";
+  INFO=$(pactl info)
+  echo "DEBUG: info: $INFO";
+  SINK=$(pactl list sinks | awk "/^[ \t]*Name:/ {name=\$2} /^[ \t]*Description:/ {if (\$0 ~ /Speaker \+ Headphones/) {print name; exit}}");
+  echo "DEBUG: detected sink: $SINK";
+  if [ -n "$SINK" ]; then
+      echo "DEBUG: setting $SINK to 0% and unmute";
+      pactl set-sink-volume "$SINK" 0% || echo "DEBUG: set-sink-volume failed";
+      pactl set-sink-mute "$SINK" 0 || echo "DEBUG: set-sink-mute failed";
+      echo "DEBUG: done updating sink $SINK";
+  else
+      echo "DEBUG: no matching sink found";
+  fi
+'
+```
+
+- Create script `$ sudo gedit ~/.local/bin/mute_laptop_sound_on_login.sh`:
+
+```
+#!/usr/bin/env bash
+
+echo "DEBUG: service started";
+INFO=$(pactl info)
+echo "DEBUG: info: $INFO";
+SINK=$(pactl list sinks | awk "/^[ \t]*Name:/ {name=\$2} /^[ \t]*Description:/ {if (\$0 ~ /Speaker \+ Headphones/) {print name; exit}}");
+echo "DEBUG: detected sink: $SINK";
+if [ -n "$SINK" ]; then
+    echo "DEBUG: setting $SINK to 0% and unmute";
+    pactl set-sink-volume "$SINK" 0% || echo "DEBUG: set-sink-volume failed";
+    pactl set-sink-mute "$SINK" 0 || echo "DEBUG: set-sink-mute failed";
+    echo "DEBUG: done updating sink $SINK";
+else
+    echo "DEBUG: no matching sink found";
+fi
+```
+
+- Make script executable: `$ sudo chmod +x ~/.local/bin/mute_laptop_sound_on_login.sh`
+
+- Create service `$ sudo gedit /usr/lib/systemd/user/mute_laptop_sound_on_login.service`:
+
+```
+[Unit]
+Description=Set laptop speakers to 0% and unmute on login
+After=default.target pulseaudio.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/.local/bin/mute_laptop_sound_on_login.sh
+Environment="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+
+[Install]
+WantedBy=default.target
+```
+
+- Reload service `$ systemctl --user daemon-reload`
+
+- Enable service `$ systemctl --user enable mute_laptop_sound_on_login.service`
+
+- Start service `$ systemctl --user start mute_laptop_sound_on_login.service`
+
+- Check logs `$ journalctl --user -u mute_laptop_sound_on_login.service`

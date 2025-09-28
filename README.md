@@ -280,41 +280,28 @@ EndSection
 - Then test the whole script in the terminal:
 ```
   $ systemd-run --user --wait --collect -p Environment="XDG_RUNTIME_DIR=/run/user/1000" /usr/bin/env bash -c '
-  echo "DEBUG: service started";
-  INFO=$(pactl info)
-  echo "DEBUG: info: $INFO";
-  SINK=$(pactl list sinks | awk "/^[ \t]*Name:/ {name=\$2} /^[ \t]*Description:/ {if (\$0 ~ /Speaker \+ Headphones/) {print name; exit}}");
-  echo "DEBUG: detected sink: $SINK";
-  if [ -n "$SINK" ]; then
-      echo "DEBUG: setting $SINK to 0% and unmute";
-      pactl set-sink-volume "$SINK" 0% || echo "DEBUG: set-sink-volume failed";
-      pactl set-sink-mute "$SINK" 0 || echo "DEBUG: set-sink-mute failed";
-      echo "DEBUG: done updating sink $SINK";
-  else
-      echo "DEBUG: no matching sink found";
-  fi
-'
-```
-
-- Create script `$ sudo gedit ~/.local/bin/mute_laptop_sound_on_login.sh`:
-
-```
 #!/usr/bin/env bash
 
 echo "DEBUG: service started";
+
 INFO=$(pactl info)
 echo "DEBUG: info: $INFO";
+
 SINK=$(pactl list sinks | awk "/^[ \t]*Name:/ {name=\$2} /^[ \t]*Description:/ {if (\$0 ~ /Speaker \+ Headphones/) {print name; exit}}");
 echo "DEBUG: detected sink: $SINK";
+
 if [ -n "$SINK" ]; then
-    echo "DEBUG: setting $SINK to 0% and unmute";
-    pactl set-sink-volume "$SINK" 0% || echo "DEBUG: set-sink-volume failed";
-    pactl set-sink-mute "$SINK" 0 || echo "DEBUG: set-sink-mute failed";
-    echo "DEBUG: done updating sink $SINK";
+   echo "DEBUG: setting $SINK to 0% and unmute";
+   pactl set-sink-volume "$SINK" 0% || echo "DEBUG: set-sink-volume failed";
+   pactl set-sink-mute "$SINK" 0 || echo "DEBUG: set-sink-mute failed";
+   echo "DEBUG: done updating sink $SINK";
 else
-    echo "DEBUG: no matching sink found";
+   echo "DEBUG: no matching sink found";
 fi
+'
 ```
+
+- Create script `$ sudo gedit ~/.local/bin/mute_laptop_sound_on_login.sh` with above tested code:
 
 - Make script executable: `$ sudo chmod +x ~/.local/bin/mute_laptop_sound_on_login.sh`
 
@@ -342,9 +329,60 @@ WantedBy=default.target
 
 - Check logs `$ journalctl --user -u mute_laptop_sound_on_login.service`
 
-# Toggling session idle delay based on the reachability of the home wifi network using gsettings
+# Set session idle delay based on the reachability of the home wifi network on login using gsettings and nmcli
 
-- For permanent change, using `$ dconf-editor` change `/org/gnome/desktop/session/idle-delay` (e.g. Elementary OS limits settings up in Power Settings window only to Never, 5, 10, 15, 30, 45 minutes or 1, 2 hours)
+- To verify it will work, test first change manually using `$ dconf-editor` and `/org/gnome/desktop/session/idle-delay` (e.g. Elementary OS limits settings up in Power Settings window only to Never, 5, 10, 15, 30, 45 minutes or 1, 2 hours)
+
+- Then test the whole script in the terminal:
+```
+$ systemd-run --user --wait --collect -p Environment="XDG_RUNTIME_DIR=/run/user/1000" /usr/bin/env bash -c '
+#!/usr/bin/env bash
+
+echo "DEBUG: service started"
+
+HOME_SSID="UPC12345678"           # your home network name
+HOME_IDLE_SECONDS=1800            # 30 minutes
+AWAY_IDLE_SECONDS=60              # 1 minute
+
+if nmcli -t -f ssid dev wifi list | grep -Fxq "$HOME_SSID"; then
+    echo "DEBUG: $HOME_SSID in range setting idle-delay to $HOME_IDLE_SECONDS"
+    gsettings set org.gnome.desktop.session idle-delay $HOME_IDLE_SECONDS || echo "DEBUG: gsettings failed"
+else
+    echo "DEBUG: $HOME_SSID not in range setting idle-delay to $AWAY_IDLE_SECONDS"
+    gsettings set org.gnome.desktop.session idle-delay $AWAY_IDLE_SECONDS || echo "DEBUG: gsettings failed"
+fi
+
+echo "DEBUG: done"
+'
+```
+
+- Create script `$ sudo gedit ~/.local/bin/toggle_session_idle_delay.sh`:
+
+- Make script executable: `$ sudo chmod +x ~/.local/bin/toggle_session_idle_delay.sh`
+
+- Create service `$ sudo gedit /usr/lib/systemd/user/toggle_session_idle_delay.service`:
+
+```
+[Unit]
+Description=Set session idle delay based on the reachability of the home wifi network
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/.local/bin/toggle_session_idle_delay.sh
+Environment="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+
+[Install]
+WantedBy=default.target
+```
+
+- Reload service `$ systemctl --user daemon-reload`
+
+- Enable service `$ systemctl --user enable toggle_session_idle_delay.service`
+
+- Start service `$ systemctl --user start toggle_session_idle_delay.service`
+
+- Check logs `$ journalctl --user -u toggle_session_idle_delay.service`
 
 # Disable autoconnect to Wired connection 1 because it can interrupt wifi connection (downloading)
 

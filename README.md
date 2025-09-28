@@ -341,3 +341,7 @@ WantedBy=default.target
 - Start service `$ systemctl --user start mute_laptop_sound_on_login.service`
 
 - Check logs `$ journalctl --user -u mute_laptop_sound_on_login.service`
+
+# Toggling session idle delay based on the reachability of the home wifi network using gsettings
+
+- For permanent change, using `$ dconf-editor` change `/org/gnome/desktop/session/idle-delay` (e.g. Elementary OS limits settings up in Power Settings window only to Never, 5, 10, 15, 30, 45 minutes or 1, 2 hours)

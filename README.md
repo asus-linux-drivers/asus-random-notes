@@ -341,7 +341,7 @@ $ systemd-run --user --wait --collect -p Environment="XDG_RUNTIME_DIR=/run/user/
 echo "DEBUG: service started"
 
 HOME_SSID="UPC12345678"           # your home network name
-HOME_IDLE_SECONDS=1800            # 30 minutes
+HOME_IDLE_SECONDS=0               # never
 AWAY_IDLE_SECONDS=60              # 1 minute
 
 if nmcli -t -f ssid dev wifi list | grep -Fxq "$HOME_SSID"; then

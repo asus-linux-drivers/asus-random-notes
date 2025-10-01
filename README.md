@@ -75,7 +75,7 @@ $ getconf LONG_BIT
 
 # HP printer
 
-- Download and install latest `*.run` file from [developers.hp.com](https://developers.hp.com/hp-linux-imaging-and-printing/gethplip)
+- Install via `$ sudo apt-get install hplip hplip-gui` or download and install the latest `*.run` file from [developers.hp.com](https://developers.hp.com/hp-linux-imaging-and-printing/gethplip)
 ```
 $ chmod +x *.run
 $ sudo ./*.run

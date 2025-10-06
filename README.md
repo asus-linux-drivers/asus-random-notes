@@ -344,7 +344,9 @@ HOME_SSID="UPC12345678"           # your home network name
 HOME_IDLE_SECONDS=0               # never
 AWAY_IDLE_SECONDS=60              # 1 minute
 
-if nmcli -t -f ssid dev wifi list | grep -Fxq "$HOME_SSID"; then
+CURRENT_SSID=$(nmcli -t -f active,ssid dev wifi | awk -F: '$1 == "yes" {print $2}')
+
+if [[ "$CURRENT_SSID" == "$HOME_SSID" ]]; then
     echo "DEBUG: $HOME_SSID in range setting idle-delay to $HOME_IDLE_SECONDS"
     gsettings set org.gnome.desktop.session idle-delay $HOME_IDLE_SECONDS || echo "DEBUG: gsettings failed"
 else

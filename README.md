@@ -301,11 +301,11 @@ fi
 '
 ```
 
-- Create script `$ sudo gedit ~/.local/bin/mute_laptop_sound_on_login.sh` with above tested code:
+- Create script `$ sudo gedit ~/.local/bin/mute-laptop-sound-on-login.sh` with above tested code:
 
-- Make script executable: `$ sudo chmod +x ~/.local/bin/mute_laptop_sound_on_login.sh`
+- Make script executable: `$ sudo chmod +x ~/.local/bin/mute-laptop-sound-on-login.sh`
 
-- Create service `$ sudo gedit /usr/lib/systemd/user/mute_laptop_sound_on_login.service`:
+- Create service `$ sudo gedit /usr/lib/systemd/user/mute-laptop-sound-on-login.service`:
 
 ```
 [Unit]
@@ -314,20 +314,22 @@ After=default.target pulseaudio.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/env bash %h/.local/bin/mute_laptop_sound_on_login.sh
+ExecStart=/usr/bin/env bash %h/.local/bin/mute-laptop-sound-on-login.sh
 Environment="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
 
 [Install]
 WantedBy=default.target
 ```
 
+- Replace env vars `$ envsubst < /usr/lib/systemd/user/mute-laptop-sound-on-login.service | sudo tee /usr/lib/systemd/user/mute-laptop-sound-on-login.service > /dev/null`
+
 - Reload service `$ systemctl --user daemon-reload`
 
-- Enable service `$ systemctl --user enable mute_laptop_sound_on_login.service`
+- Enable service `$ systemctl --user enable mute-laptop-sound-on-login.service`
 
-- Start service `$ systemctl --user start mute_laptop_sound_on_login.service`
+- Start service `$ systemctl --user start mute-laptop-sound-on-login.service`
 
-- Check logs `$ journalctl --user -u mute_laptop_sound_on_login.service`
+- Check logs `$ journalctl --user -u mute-laptop-sound-on-login.service`
 
 # Set session idle delay based on the reachability of the home wifi network on login using gsettings and nmcli
 
@@ -344,9 +346,7 @@ HOME_SSID="UPC12345678"           # your home network name
 HOME_IDLE_SECONDS=0               # never
 AWAY_IDLE_SECONDS=60              # 1 minute
 
-CURRENT_SSID=$(nmcli -t -f active,ssid dev wifi | awk -F: '$1 == "yes" {print $2}')
-
-if [[ "$CURRENT_SSID" == "$HOME_SSID" ]]; then
+if nmcli -t -f ssid dev wifi list | grep -Fxq "$HOME_SSID"; then
     echo "DEBUG: $HOME_SSID in range setting idle-delay to $HOME_IDLE_SECONDS"
     gsettings set org.gnome.desktop.session idle-delay $HOME_IDLE_SECONDS || echo "DEBUG: gsettings failed"
 else
@@ -362,12 +362,13 @@ echo "DEBUG: done"
 
 - Make script executable: `$ sudo chmod +x ~/.local/bin/toggle_session_idle_delay.sh`
 
-- Create service `$ sudo gedit /usr/lib/systemd/user/toggle_session_idle_delay.service`:
+- Create service `$ sudo gedit /usr/lib/systemd/user/toggle-session-idle-delay.service`:
 
 ```
 [Unit]
 Description=Set session idle delay based on the reachability of the home wifi network
-After=default.target
+After=default.target suspend.target network-online.target
+Wants=network-online.target
 
 [Service]
 Type=oneshot
@@ -375,16 +376,18 @@ ExecStart=/usr/bin/env bash %h/.local/bin/toggle_session_idle_delay.sh
 Environment="XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
 
 [Install]
-WantedBy=default.target
+WantedBy=default.target suspend.target
 ```
+
+- Replace env vars `$ envsubst < /usr/lib/systemd/user/toggle-session-idle-delay.service | sudo tee /usr/lib/systemd/user/toggle-session-idle-delay.service > /dev/null`
 
 - Reload service `$ systemctl --user daemon-reload`
 
-- Enable service `$ systemctl --user enable toggle_session_idle_delay.service`
+- Enable service `$ systemctl --user enable toggle-session-idle-delay.service`
 
-- Start service `$ systemctl --user start toggle_session_idle_delay.service`
+- Start service `$ systemctl --user start toggle-session-idle-delay.service`
 
-- Check logs `$ journalctl --user -u toggle_session_idle_delay.service`
+- Check logs `$ journalctl --user -u toggle-session-idle-delay.service`
 
 # Disable autoconnect to Wired connection 1 because it can interrupt wifi connection (downloading)
 

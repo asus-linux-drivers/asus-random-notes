@@ -62,6 +62,12 @@ options asus_wmi fnlock_default=N
 $ sudo update-initramfs -u -k all; reboot
 ```
 
+# Allow volume above 100%
+
+## Gnome
+
+- Open `dconf` and set `true` to `/org/gnome/desktop/sound/allow-volume-above-100-percent` or execute `dconf write /org/gnome/desktop/sound/allow-volume-above-100-percent true`
+
 # Usage of Intel graphics
 
 ```

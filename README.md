@@ -49,7 +49,7 @@ $ cat DSDT.dsl
 
 # Locked Fn key whenever laptop starts
 
-- Add these two lines to the file `sudo gedit /etc/modprobe.d/alsa-base.conf`
+- Add these two lines to the file `$ sudo gedit /etc/modprobe.d/alsa-base.conf`
 
 ```
 # Toggle fnlock_default at boot (Y/N)
@@ -66,7 +66,7 @@ $ sudo update-initramfs -u -k all; reboot
 
 ## Gnome
 
-- Open `dconf` and set `true` to `/org/gnome/desktop/sound/allow-volume-above-100-percent` or execute `dconf write /org/gnome/desktop/sound/allow-volume-above-100-percent true`
+- Open `dconf` and set `true` to `/org/gnome/desktop/sound/allow-volume-above-100-percent` or execute `$ dconf write /org/gnome/desktop/sound/allow-volume-above-100-percent true`
 
 # Usage of Intel graphics
 
